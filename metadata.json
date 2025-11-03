@@ -1,0 +1,5 @@
+{
+  "name": "AI Legal Contract Drafter",
+  "description": "An AI-powered assistant to generate professional legal contract drafts in Croatian based on structured input and analysis of uploaded ID documents.",
+  "requestFramePermissions": []
+}
