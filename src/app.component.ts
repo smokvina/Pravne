@@ -51,7 +51,7 @@ import { ContractInput, Party, GenerationResult, Contact, PartyValidationErrors,
             <div class="space-y-8">
                 @for (party of contractInput().parties; track party.id; let i = $index) {
                     <div class="bg-white p-8 rounded-xl shadow-lg relative">
-                        <h3 class="text-2xl font-semibold mb-6 text-slate-800">Strana {{ i + 1 }}</h3>
+                        <h3 class="text-2xl font-semibold mb-6 text-slate-800">{{ party.role || ('Strana ' + (i + 1)) }}</h3>
                         @if (contractInput().parties.length > 1) {
                             <button type="button" (click)="removeParty(party.id)" class="absolute top-6 right-6 text-3xl font-bold text-slate-400 hover:text-red-600 transition-colors">&times;</button>
                         }
@@ -232,6 +232,7 @@ export class AppComponent {
   });
   
   constructor() {
+    this.addParty();
     this.addParty();
   }
 
