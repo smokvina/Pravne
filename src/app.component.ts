@@ -43,10 +43,6 @@ import { ContractInput, Party, GenerationResult, Contact, PartyValidationErrors,
           <section class="mb-10">
             <div class="flex justify-between items-center mb-6 border-b border-slate-300 pb-4">
                 <h2 class="text-3xl font-bold text-slate-900">2. Strane u Ugovoru</h2>
-                <button type="button" (click)="addParty()" class="bg-indigo-500 text-white hover:bg-indigo-600 font-semibold rounded-lg text-base px-5 py-2.5 transition-colors shadow-sm inline-flex items-center">
-                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
-                    Dodaj Stranu
-                </button>
             </div>
             <div class="space-y-8">
                 @for (party of contractInput().parties; track party.id; let i = $index) {
@@ -141,6 +137,12 @@ import { ContractInput, Party, GenerationResult, Contact, PartyValidationErrors,
                     </div>
                 }
             </div>
+             <div class="mt-8 flex justify-center">
+                <button type="button" (click)="addParty()" class="bg-indigo-500 text-white hover:bg-indigo-600 font-semibold rounded-lg text-base px-5 py-2.5 transition-colors shadow-sm inline-flex items-center">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+                    Dodaj Stranku
+                </button>
+            </div>
           </section>
 
           <!-- Additional Instructions -->
@@ -190,7 +192,7 @@ import { ContractInput, Party, GenerationResult, Contact, PartyValidationErrors,
                                 </button>
                             </div>
                         </div>
-                        <div class="mt-4 p-6 bg-slate-50 rounded-lg border border-slate-300 max-h-[45rem] overflow-y-auto">
+                        <div class="mt-4 p-6 bg-slate-100 rounded-lg border border-slate-300 max-h-[45rem] overflow-y-auto">
                             <textarea class="w-full text-lg font-mono text-slate-900 bg-transparent border-none focus:ring-0 resize-y min-h-[40rem]" [value]="generationResult().markdown" (input)="onGeneratedContractChange($event)"></textarea>
                         </div>
                     </div>
@@ -241,21 +243,32 @@ export class AppComponent {
   }
 
   addParty(): void {
-    this.contractInput.update(current => ({
-      ...current,
-      parties: [
-        ...current.parties,
-        {
-          id: this.generateUniqueId(),
-          role: current.parties.length === 0 ? 'Najmodavac' : 'Najmoprimac',
-          name: '',
-          oib_or_id: '',
-          address: '',
-          contacts: { email: '', phone: '' },
-          validationErrors: {}
-        }
-      ]
-    }));
+    this.contractInput.update(current => {
+      let newRole = '';
+      if (current.parties.length === 0) {
+        newRole = 'Prva stranka';
+      } else if (current.parties.length === 1) {
+        newRole = 'Druga stranka';
+      }
+      // For any party beyond the second, the role starts empty,
+      // allowing the user to define it manually.
+
+      return {
+        ...current,
+        parties: [
+          ...current.parties,
+          {
+            id: this.generateUniqueId(),
+            role: newRole,
+            name: '',
+            oib_or_id: '',
+            address: '',
+            contacts: { email: '', phone: '' },
+            validationErrors: {}
+          }
+        ]
+      };
+    });
   }
 
   removeParty(partyId: string): void {
