@@ -9,102 +9,103 @@ import { ContractInput, Party, GenerationResult, Contact, PartyValidationErrors,
   imports: [CommonModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div class="bg-gray-50 min-h-screen text-gray-800 font-sans">
-      <header class="bg-white shadow-md">
-        <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-          <h1 class="text-2xl font-bold text-gray-900">AI Contract Drafter</h1>
+    <div class="bg-slate-100 min-h-screen text-slate-900 font-sans">
+      <header class="bg-white shadow-md sticky top-0 z-10">
+        <div class="max-w-7xl mx-auto py-5 px-4 sm:px-6 lg:px-8">
+          <h1 class="text-4xl font-bold text-slate-900 tracking-tight">AI Contract Drafter</h1>
         </div>
       </header>
 
-      <main class="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
+      <main class="max-w-7xl mx-auto p-4 md:p-6 lg:p-8">
         <form (submit)="$event.preventDefault(); generateContract()">
           <!-- Contract Details -->
-          <section class="bg-white p-6 rounded-lg shadow-md mb-8">
-            <h2 class="text-xl font-semibold mb-4 border-b pb-2">1. Detalji Ugovora</h2>
-            <div class="grid grid-cols-1 gap-6">
+          <section class="bg-white p-8 rounded-xl shadow-lg mb-10">
+            <h2 class="text-3xl font-bold text-slate-900 mb-6 border-b border-slate-300 pb-4">1. Detalji Ugovora</h2>
+            <div class="grid grid-cols-1 gap-8">
               <div>
-                <label for="contract_title" class="block text-sm font-medium text-gray-700">Naslov Ugovora</label>
-                <input type="text" id="contract_title" [value]="contractInput().contract_title" (input)="onContractDetailChange($event, 'contract_title')" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+                <label for="contract_title" class="block text-lg font-bold text-slate-700 mb-2">Naslov Ugovora</label>
+                <input type="text" id="contract_title" [value]="contractInput().contract_title" (input)="onContractDetailChange($event, 'contract_title')" class="mt-1 block w-full rounded-lg border-slate-400 bg-white text-black shadow-sm focus:ring-2 focus:ring-indigo-400 focus:border-transparent sm:text-lg transition-all duration-200 p-3" />
                 @if (contractInput().validationErrors?.contract_title) {
-                  <p class="text-red-500 text-sm mt-1">{{ contractInput().validationErrors.contract_title }}</p>
+                  <p class="text-red-500 text-sm mt-2">{{ contractInput().validationErrors.contract_title }}</p>
                 }
               </div>
               <div>
-                <label for="contract_purpose" class="block text-sm font-medium text-gray-700">Svrha/Predmet Ugovora</label>
-                <textarea id="contract_purpose" rows="4" [value]="contractInput().contract_purpose" (input)="onContractDetailChange($event, 'contract_purpose')" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"></textarea>
+                <label for="contract_purpose" class="block text-lg font-bold text-slate-700 mb-2">Svrha/Predmet Ugovora</label>
+                <textarea id="contract_purpose" rows="4" [value]="contractInput().contract_purpose" (input)="onContractDetailChange($event, 'contract_purpose')" class="mt-1 block w-full rounded-lg border-slate-400 bg-white text-black shadow-sm focus:ring-2 focus:ring-indigo-400 focus:border-transparent sm:text-lg transition-all duration-200 p-3"></textarea>
                 @if (contractInput().validationErrors?.contract_purpose) {
-                  <p class="text-red-500 text-sm mt-1">{{ contractInput().validationErrors.contract_purpose }}</p>
+                  <p class="text-red-500 text-sm mt-2">{{ contractInput().validationErrors.contract_purpose }}</p>
                 }
               </div>
             </div>
           </section>
 
           <!-- Parties -->
-          <section class="mb-8">
-            <div class="flex justify-between items-center mb-4 border-b pb-2">
-                <h2 class="text-xl font-semibold">2. Strane u Ugovoru</h2>
-                <button type="button" (click)="addParty()" class="bg-indigo-100 text-indigo-700 hover:bg-indigo-200 font-medium rounded-lg text-sm px-4 py-2 text-center">
-                    + Dodaj Stranu
+          <section class="mb-10">
+            <div class="flex justify-between items-center mb-6 border-b border-slate-300 pb-4">
+                <h2 class="text-3xl font-bold text-slate-900">2. Strane u Ugovoru</h2>
+                <button type="button" (click)="addParty()" class="bg-indigo-500 text-white hover:bg-indigo-600 font-semibold rounded-lg text-base px-5 py-2.5 transition-colors shadow-sm inline-flex items-center">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+                    Dodaj Stranu
                 </button>
             </div>
-            <div class="space-y-6">
+            <div class="space-y-8">
                 @for (party of contractInput().parties; track party.id; let i = $index) {
-                    <div class="bg-white p-6 rounded-lg shadow-md relative">
-                        <h3 class="text-lg font-semibold mb-4">Strana {{ i + 1 }}</h3>
+                    <div class="bg-white p-8 rounded-xl shadow-lg relative">
+                        <h3 class="text-2xl font-semibold mb-6 text-slate-800">Strana {{ i + 1 }}</h3>
                         @if (contractInput().parties.length > 1) {
-                            <button type="button" (click)="removeParty(party.id)" class="absolute top-4 right-4 text-2xl font-bold text-gray-400 hover:text-red-600">&times;</button>
+                            <button type="button" (click)="removeParty(party.id)" class="absolute top-6 right-6 text-3xl font-bold text-slate-400 hover:text-red-600 transition-colors">&times;</button>
                         }
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
                             <!-- Party Details -->
                             <div>
-                                <label [for]="'role-' + party.id" class="block text-sm font-medium text-gray-700">Uloga (npr. Najmodavac)</label>
-                                <input type="text" [id]="'role-' + party.id" [value]="party.role" (input)="onPartyDetailChange($event, party.id, 'role')" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm" />
-                                @if (party.validationErrors?.role) { <p class="text-red-500 text-sm mt-1">{{ party.validationErrors.role }}</p> }
+                                <label [for]="'role-' + party.id" class="block text-lg font-bold text-slate-700 mb-2">Uloga (npr. Najmodavac)</label>
+                                <input type="text" [id]="'role-' + party.id" [value]="party.role" (input)="onPartyDetailChange($event, party.id, 'role')" class="mt-1 block w-full rounded-lg border-slate-400 bg-white text-black shadow-sm sm:text-lg p-3 focus:ring-2 focus:ring-indigo-400 focus:border-transparent" />
+                                @if (party.validationErrors?.role) { <p class="text-red-500 text-sm mt-2">{{ party.validationErrors.role }}</p> }
                             </div>
                             <div>
-                                <label [for]="'name-' + party.id" class="block text-sm font-medium text-gray-700">Ime i Prezime / Naziv Tvrtke</label>
-                                <input type="text" [id]="'name-' + party.id" [value]="party.name" (input)="onPartyDetailChange($event, party.id, 'name')" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm" />
-                                 @if (party.validationErrors?.name) { <p class="text-red-500 text-sm mt-1">{{ party.validationErrors.name }}</p> }
+                                <label [for]="'name-' + party.id" class="block text-lg font-bold text-slate-700 mb-2">Ime i Prezime / Naziv Tvrtke</label>
+                                <input type="text" [id]="'name-' + party.id" [value]="party.name" (input)="onPartyDetailChange($event, party.id, 'name')" class="mt-1 block w-full rounded-lg border-slate-400 bg-white text-black shadow-sm sm:text-lg p-3 focus:ring-2 focus:ring-indigo-400 focus:border-transparent" />
+                                 @if (party.validationErrors?.name) { <p class="text-red-500 text-sm mt-2">{{ party.validationErrors.name }}</p> }
                             </div>
                             <div>
-                                <label [for]="'oib-' + party.id" class="block text-sm font-medium text-gray-700">OIB ili ID Broj</label>
-                                <input type="text" [id]="'oib-' + party.id" [value]="party.oib_or_id" (input)="onPartyDetailChange($event, party.id, 'oib_or_id')" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm" />
-                                @if (party.validationErrors?.oib_or_id) { <p class="text-red-500 text-sm mt-1">{{ party.validationErrors.oib_or_id }}</p> }
+                                <label [for]="'oib-' + party.id" class="block text-lg font-bold text-slate-700 mb-2">OIB ili ID Broj</label>
+                                <input type="text" [id]="'oib-' + party.id" [value]="party.oib_or_id" (input)="onPartyDetailChange($event, party.id, 'oib_or_id')" class="mt-1 block w-full rounded-lg border-slate-400 bg-white text-black shadow-sm sm:text-lg p-3 focus:ring-2 focus:ring-indigo-400 focus:border-transparent" />
+                                @if (party.validationErrors?.oib_or_id) { <p class="text-red-500 text-sm mt-2">{{ party.validationErrors.oib_or_id }}</p> }
                             </div>
                             <div>
-                                <label [for]="'address-' + party.id" class="block text-sm font-medium text-gray-700">Adresa</label>
-                                <input type="text" [id]="'address-' + party.id" [value]="party.address" (input)="onPartyDetailChange($event, party.id, 'address')" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm" />
-                                @if (party.validationErrors?.address) { <p class="text-red-500 text-sm mt-1">{{ party.validationErrors.address }}</p> }
+                                <label [for]="'address-' + party.id" class="block text-lg font-bold text-slate-700 mb-2">Adresa</label>
+                                <input type="text" [id]="'address-' + party.id" [value]="party.address" (input)="onPartyDetailChange($event, party.id, 'address')" class="mt-1 block w-full rounded-lg border-slate-400 bg-white text-black shadow-sm sm:text-lg p-3 focus:ring-2 focus:ring-indigo-400 focus:border-transparent" />
+                                @if (party.validationErrors?.address) { <p class="text-red-500 text-sm mt-2">{{ party.validationErrors.address }}</p> }
                             </div>
                              <div>
-                                <label [for]="'email-' + party.id" class="block text-sm font-medium text-gray-700">Email</label>
-                                <input type="email" [id]="'email-' + party.id" [value]="party.contacts.email" (input)="onPartyContactChange($event, party.id, 'email')" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm" />
+                                <label [for]="'email-' + party.id" class="block text-lg font-bold text-slate-700 mb-2">Email</label>
+                                <input type="email" [id]="'email-' + party.id" [value]="party.contacts.email" (input)="onPartyContactChange($event, party.id, 'email')" class="mt-1 block w-full rounded-lg border-slate-400 bg-white text-black shadow-sm sm:text-lg p-3 focus:ring-2 focus:ring-indigo-400 focus:border-transparent" />
                             </div>
                             <div>
-                                <label [for]="'phone-' + party.id" class="block text-sm font-medium text-gray-700">Telefon</label>
-                                <input type="tel" [id]="'phone-' + party.id" [value]="party.contacts.phone" (input)="onPartyContactChange($event, party.id, 'phone')" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm" />
+                                <label [for]="'phone-' + party.id" class="block text-lg font-bold text-slate-700 mb-2">Telefon</label>
+                                <input type="tel" [id]="'phone-' + party.id" [value]="party.contacts.phone" (input)="onPartyContactChange($event, party.id, 'phone')" class="mt-1 block w-full rounded-lg border-slate-400 bg-white text-black shadow-sm sm:text-lg p-3 focus:ring-2 focus:ring-indigo-400 focus:border-transparent" />
                             </div>
                         </div>
 
                         <!-- ID Card OCR -->
-                        <div class="mt-6 border-t pt-4">
-                            <h4 class="text-md font-semibold text-gray-800 mb-2">Sken Osobne Iskaznice (Opcionalno)</h4>
-                            <p class="text-sm text-gray-500 mb-4">Učitajte slike osobne iskaznice za automatsko popunjavanje podataka pomoću AI.</p>
+                        <div class="mt-8 border-t border-slate-300 pt-6">
+                            <h4 class="text-xl font-semibold text-slate-900 mb-2">Sken Osobne Iskaznice (Opcionalno)</h4>
+                            <p class="text-base text-slate-600 mb-4">Učitajte slike osobne iskaznice za automatsko popunjavanje podataka pomoću AI.</p>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <!-- Front Side -->
                                 <div>
-                                    <label [for]="'id-front-' + party.id" class="block text-sm font-medium text-gray-700">Prednja Strana</label>
-                                    <input type="file" [id]="'id-front-' + party.id" (change)="handleIdCardUpload(party.id, 'front', $event)" accept="image/*" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100"/>
+                                    <label [for]="'id-front-' + party.id" class="block text-lg font-bold text-slate-700 mb-2">Prednja Strana</label>
+                                    <input type="file" [id]="'id-front-' + party.id" (change)="handleIdCardUpload(party.id, 'front', $event)" accept="image/*" class="mt-1 block w-full text-base text-slate-500 file:mr-4 file:py-2.5 file:px-5 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 cursor-pointer"/>
                                     @if(isLoading()['ocr_' + party.id + '_front']) {
-                                        <p class="text-sm text-indigo-600 mt-2">Analiziram prednju stranu...</p>
+                                        <p class="text-sm text-indigo-600 mt-2 flex items-center"><span class="animate-spin rounded-full h-4 w-4 border-b-2 border-indigo-600 mr-2"></span>Analiziram prednju stranu...</p>
                                     }
                                     @if (party.id_card_image_front_text) {
-                                        <div class="mt-2 p-3 bg-gray-50 rounded-md border">
-                                            <h5 class="text-sm font-semibold">Ekstrahirani Tekst (Prednja):</h5>
-                                            <pre class="text-xs whitespace-pre-wrap font-mono bg-white p-2 rounded mt-1 max-h-40 overflow-y-auto">{{ party.id_card_image_front_text }}</pre>
+                                        <div class="mt-4 p-4 bg-slate-50 rounded-lg border border-slate-300">
+                                            <h5 class="text-base font-semibold text-slate-800">Ekstrahirani Tekst (Prednja):</h5>
+                                            <pre class="text-base whitespace-pre-wrap font-mono bg-white p-3 rounded mt-2 max-h-40 overflow-y-auto border border-slate-300">{{ party.id_card_image_front_text }}</pre>
                                             @if (party.id_card_front_uncertain_fields && party.id_card_front_uncertain_fields.length > 0) {
-                                                <h5 class="text-sm font-semibold mt-2 text-amber-700">Nesigurna Polja:</h5>
-                                                <ul class="text-xs list-disc pl-5 mt-1">
+                                                <h5 class="text-base font-semibold mt-3 text-amber-700">Nesigurna Polja:</h5>
+                                                <ul class="text-sm list-disc pl-5 mt-1 space-y-1">
                                                     @for(field of party.id_card_front_uncertain_fields; track field.field) {
                                                         <li class="text-amber-600"><strong>{{ field.field }}:</strong> {{ field.value }} (<em>{{ field.reason }}</em>)</li>
                                                     }
@@ -115,18 +116,18 @@ import { ContractInput, Party, GenerationResult, Contact, PartyValidationErrors,
                                 </div>
                                 <!-- Back Side -->
                                 <div>
-                                    <label [for]="'id-back-' + party.id" class="block text-sm font-medium text-gray-700">Stražnja Strana</label>
-                                    <input type="file" [id]="'id-back-' + party.id" (change)="handleIdCardUpload(party.id, 'back', $event)" accept="image/*" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100"/>
+                                    <label [for]="'id-back-' + party.id" class="block text-lg font-bold text-slate-700 mb-2">Stražnja Strana</label>
+                                    <input type="file" [id]="'id-back-' + party.id" (change)="handleIdCardUpload(party.id, 'back', $event)" accept="image/*" class="mt-1 block w-full text-base text-slate-500 file:mr-4 file:py-2.5 file:px-5 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 cursor-pointer"/>
                                     @if(isLoading()['ocr_' + party.id + '_back']) {
-                                        <p class="text-sm text-indigo-600 mt-2">Analiziram stražnju stranu...</p>
+                                        <p class="text-sm text-indigo-600 mt-2 flex items-center"><span class="animate-spin rounded-full h-4 w-4 border-b-2 border-indigo-600 mr-2"></span>Analiziram stražnju stranu...</p>
                                     }
                                     @if (party.id_card_image_back_text) {
-                                        <div class="mt-2 p-3 bg-gray-50 rounded-md border">
-                                            <h5 class="text-sm font-semibold">Ekstrahirani Tekst (Stražnja):</h5>
-                                            <pre class="text-xs whitespace-pre-wrap font-mono bg-white p-2 rounded mt-1 max-h-40 overflow-y-auto">{{ party.id_card_image_back_text }}</pre>
+                                        <div class="mt-4 p-4 bg-slate-50 rounded-lg border border-slate-300">
+                                            <h5 class="text-base font-semibold text-slate-800">Ekstrahirani Tekst (Stražnja):</h5>
+                                            <pre class="text-base whitespace-pre-wrap font-mono bg-white p-3 rounded mt-2 max-h-40 overflow-y-auto border border-slate-300">{{ party.id_card_image_back_text }}</pre>
                                             @if (party.id_card_back_uncertain_fields && party.id_card_back_uncertain_fields.length > 0) {
-                                                <h5 class="text-sm font-semibold mt-2 text-amber-700">Nesigurna Polja:</h5>
-                                                <ul class="text-xs list-disc pl-5 mt-1">
+                                                <h5 class="text-base font-semibold mt-3 text-amber-700">Nesigurna Polja:</h5>
+                                                <ul class="text-sm list-disc pl-5 mt-1 space-y-1">
                                                     @for(field of party.id_card_back_uncertain_fields; track field.field) {
                                                         <li class="text-amber-600"><strong>{{ field.field }}:</strong> {{ field.value }} (<em>{{ field.reason }}</em>)</li>
                                                     }
@@ -143,17 +144,17 @@ import { ContractInput, Party, GenerationResult, Contact, PartyValidationErrors,
           </section>
 
           <!-- Additional Instructions -->
-          <section class="bg-white p-6 rounded-lg shadow-md mb-8">
-            <h2 class="text-xl font-semibold mb-4 border-b pb-2">3. Dodatne Upute</h2>
+          <section class="bg-white p-8 rounded-xl shadow-lg mb-10">
+            <h2 class="text-3xl font-bold text-slate-900 mb-6 border-b border-slate-300 pb-4">3. Dodatne Upute</h2>
             <div>
-              <label for="additional_instructions" class="block text-sm font-medium text-gray-700">Posebni zahtjevi, klauzule ili napomene</label>
-              <textarea id="additional_instructions" rows="4" [value]="contractInput().additional_instructions" (input)="onContractDetailChange($event, 'additional_instructions')" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" placeholder="npr. 'Koristi jednostavan jezik', 'Uključi klauzulu o povjerljivosti...'"></textarea>
+              <label for="additional_instructions" class="block text-lg font-bold text-slate-700 mb-2">Posebni zahtjevi, klauzule ili napomene</label>
+              <textarea id="additional_instructions" rows="4" [value]="contractInput().additional_instructions" (input)="onContractDetailChange($event, 'additional_instructions')" class="mt-1 block w-full rounded-lg border-slate-400 bg-white text-black shadow-sm sm:text-lg p-3 focus:ring-2 focus:ring-indigo-400 focus:border-transparent placeholder:text-slate-500" placeholder="npr. 'Koristi jednostavan jezik', 'Uključi klauzulu o povjerljivosti...'"></textarea>
             </div>
           </section>
 
           <!-- Actions -->
-          <section class="flex items-center justify-end p-6 bg-gray-100 rounded-lg">
-            <button type="submit" [disabled]="isContractGenerationDisabled()" class="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:bg-indigo-300 disabled:cursor-not-allowed">
+          <section class="flex items-center justify-end p-6 bg-slate-200 rounded-xl shadow-inner">
+            <button type="submit" [disabled]="isContractGenerationDisabled()" class="inline-flex items-center justify-center rounded-lg border border-transparent bg-indigo-600 px-8 py-4 text-lg font-semibold text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:bg-indigo-400 disabled:cursor-not-allowed transition-colors">
               @if (isLoading()['contract']) {
                 <span class="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-3"></span>
                 <span>Generiram...</span>
@@ -166,37 +167,37 @@ import { ContractInput, Party, GenerationResult, Contact, PartyValidationErrors,
 
         <!-- Error Display -->
         @if (error()) {
-            <div class="mt-8 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">
+            <div class="mt-10 p-5 bg-red-100 border-l-4 border-red-500 text-red-800 rounded-lg shadow-md">
                 <p><strong>Greška:</strong> {{ error() }}</p>
             </div>
         }
 
         <!-- Results -->
         @if (generationResult()) {
-            <section class="mt-8">
-                <h2 class="text-2xl font-semibold mb-4 border-b pb-2">Generirani Nacrt Ugovora</h2>
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                    <div class="bg-white p-6 rounded-lg shadow-md">
-                        <div class="flex justify-between items-center mb-3">
-                            <h3 class="text-xl font-semibold">Prikaz Ugovora (Markdown)</h3>
-                            <div class="flex items-center space-x-2">
+            <section class="mt-12">
+                <h2 class="text-4xl font-bold text-slate-900 mb-8 border-b border-slate-400 pb-4">Generirani Nacrt Ugovora</h2>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+                    <div class="bg-white p-8 rounded-xl shadow-lg">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-3xl font-semibold text-slate-900">Prikaz Ugovora</h3>
+                            <div class="flex items-center space-x-3">
                                 @if (copySuccess()) {
                                     <span class="text-green-600 text-sm font-semibold transition-opacity duration-300">Kopirano!</span>
                                 }
-                                <button type="button" (click)="copyMarkdownToClipboard()" class="bg-gray-200 text-gray-700 hover:bg-gray-300 font-medium rounded-lg text-sm px-4 py-2 text-center inline-flex items-center">
+                                <button type="button" (click)="copyMarkdownToClipboard()" class="bg-slate-200 text-slate-800 hover:bg-slate-300 font-medium rounded-lg text-sm px-4 py-2 text-center inline-flex items-center transition-colors">
                                     <svg class="w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20"><path d="M16 1h-3.278A1.992 1.992 0 0 0 11 0H7a1.992 1.992 0 0 0-1.722 1H2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2Zm-3 14H5a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-4H5a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-4H5a1 1 0 0 1 0-2h8a1 1 0 1 1 0 2Z"/></svg>
                                     Kopiraj
                                 </button>
                             </div>
                         </div>
-                        <div class="mt-2 p-3 bg-gray-50 rounded-md border max-h-[40rem] overflow-y-auto">
-                            <pre class="text-sm whitespace-pre-wrap font-mono">{{ generationResult().markdown }}</pre>
+                        <div class="mt-4 p-6 bg-slate-50 rounded-lg border border-slate-300 max-h-[45rem] overflow-y-auto">
+                            <pre class="text-lg whitespace-pre-wrap font-mono text-slate-900">{{ generationResult().markdown }}</pre>
                         </div>
                     </div>
-                    <div class="bg-gray-800 text-white p-6 rounded-lg shadow-md">
-                        <h3 class="text-xl font-semibold mb-3">JSON Metadata</h3>
-                        <div class="mt-2 p-3 bg-gray-900 rounded-md border border-gray-700 max-h-[40rem] overflow-y-auto">
-                           <pre class="text-sm whitespace-pre-wrap font-mono">{{ generationResult().json }}</pre>
+                    <div class="bg-slate-800 text-slate-200 p-8 rounded-xl shadow-lg">
+                        <h3 class="text-3xl font-semibold mb-4 text-white">JSON Metadata</h3>
+                        <div class="mt-4 p-6 bg-slate-900 rounded-lg border border-slate-700 max-h-[45rem] overflow-y-auto">
+                           <pre class="text-lg whitespace-pre-wrap font-mono">{{ generationResult().json }}</pre>
                         </div>
                     </div>
                 </div>
