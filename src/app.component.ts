@@ -24,14 +24,14 @@ import { ContractInput, Party, GenerationResult, Contact, PartyValidationErrors,
             <div class="grid grid-cols-1 gap-8">
               <div>
                 <label for="contract_title" class="block text-lg font-bold text-slate-700 mb-2">Naslov Ugovora</label>
-                <input type="text" id="contract_title" [value]="contractInput().contract_title" (input)="onContractDetailChange($event, 'contract_title')" class="mt-1 block w-full rounded-lg border-slate-400 bg-white text-black shadow-sm focus:ring-2 focus:ring-indigo-400 focus:border-transparent sm:text-lg transition-all duration-200 p-3" />
+                <input type="text" id="contract_title" [value]="contractInput().contract_title" (input)="onContractDetailChange($event, 'contract_title')" class="mt-1 block w-full rounded-lg border-2 border-black bg-white text-black shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 sm:text-lg transition-all duration-200 p-3" />
                 @if (contractInput().validationErrors?.contract_title) {
                   <p class="text-red-500 text-sm mt-2">{{ contractInput().validationErrors.contract_title }}</p>
                 }
               </div>
               <div>
                 <label for="contract_purpose" class="block text-lg font-bold text-slate-700 mb-2">Svrha/Predmet Ugovora</label>
-                <textarea id="contract_purpose" rows="4" [value]="contractInput().contract_purpose" (input)="onContractDetailChange($event, 'contract_purpose')" class="mt-1 block w-full rounded-lg border-slate-400 bg-white text-black shadow-sm focus:ring-2 focus:ring-indigo-400 focus:border-transparent sm:text-lg transition-all duration-200 p-3"></textarea>
+                <textarea id="contract_purpose" rows="4" [value]="contractInput().contract_purpose" (input)="onContractDetailChange($event, 'contract_purpose')" class="mt-1 block w-full rounded-lg border-2 border-black bg-white text-black shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 sm:text-lg transition-all duration-200 p-3"></textarea>
                 @if (contractInput().validationErrors?.contract_purpose) {
                   <p class="text-red-500 text-sm mt-2">{{ contractInput().validationErrors.contract_purpose }}</p>
                 }
@@ -59,31 +59,31 @@ import { ContractInput, Party, GenerationResult, Contact, PartyValidationErrors,
                             <!-- Party Details -->
                             <div>
                                 <label [for]="'role-' + party.id" class="block text-lg font-bold text-slate-700 mb-2">Uloga (npr. Najmodavac)</label>
-                                <input type="text" [id]="'role-' + party.id" [value]="party.role" (input)="onPartyDetailChange($event, party.id, 'role')" class="mt-1 block w-full rounded-lg border-slate-400 bg-white text-black shadow-sm sm:text-lg p-3 focus:ring-2 focus:ring-indigo-400 focus:border-transparent" />
+                                <input type="text" [id]="'role-' + party.id" [value]="party.role" (input)="onPartyDetailChange($event, party.id, 'role')" class="mt-1 block w-full rounded-lg border-2 border-black bg-white text-black shadow-sm sm:text-lg p-3 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20" />
                                 @if (party.validationErrors?.role) { <p class="text-red-500 text-sm mt-2">{{ party.validationErrors.role }}</p> }
                             </div>
                             <div>
                                 <label [for]="'name-' + party.id" class="block text-lg font-bold text-slate-700 mb-2">Ime i Prezime / Naziv Tvrtke</label>
-                                <input type="text" [id]="'name-' + party.id" [value]="party.name" (input)="onPartyDetailChange($event, party.id, 'name')" class="mt-1 block w-full rounded-lg border-slate-400 bg-white text-black shadow-sm sm:text-lg p-3 focus:ring-2 focus:ring-indigo-400 focus:border-transparent" />
+                                <input type="text" [id]="'name-' + party.id" [value]="party.name" (input)="onPartyDetailChange($event, party.id, 'name')" class="mt-1 block w-full rounded-lg border-2 border-black bg-white text-black shadow-sm sm:text-lg p-3 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20" />
                                  @if (party.validationErrors?.name) { <p class="text-red-500 text-sm mt-2">{{ party.validationErrors.name }}</p> }
                             </div>
                             <div>
                                 <label [for]="'oib-' + party.id" class="block text-lg font-bold text-slate-700 mb-2">OIB ili ID Broj</label>
-                                <input type="text" [id]="'oib-' + party.id" [value]="party.oib_or_id" (input)="onPartyDetailChange($event, party.id, 'oib_or_id')" class="mt-1 block w-full rounded-lg border-slate-400 bg-white text-black shadow-sm sm:text-lg p-3 focus:ring-2 focus:ring-indigo-400 focus:border-transparent" />
+                                <input type="text" [id]="'oib-' + party.id" [value]="party.oib_or_id" (input)="onPartyDetailChange($event, party.id, 'oib_or_id')" class="mt-1 block w-full rounded-lg border-2 border-black bg-white text-black shadow-sm sm:text-lg p-3 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20" />
                                 @if (party.validationErrors?.oib_or_id) { <p class="text-red-500 text-sm mt-2">{{ party.validationErrors.oib_or_id }}</p> }
                             </div>
                             <div>
                                 <label [for]="'address-' + party.id" class="block text-lg font-bold text-slate-700 mb-2">Adresa</label>
-                                <input type="text" [id]="'address-' + party.id" [value]="party.address" (input)="onPartyDetailChange($event, party.id, 'address')" class="mt-1 block w-full rounded-lg border-slate-400 bg-white text-black shadow-sm sm:text-lg p-3 focus:ring-2 focus:ring-indigo-400 focus:border-transparent" />
+                                <input type="text" [id]="'address-' + party.id" [value]="party.address" (input)="onPartyDetailChange($event, party.id, 'address')" class="mt-1 block w-full rounded-lg border-2 border-black bg-white text-black shadow-sm sm:text-lg p-3 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20" />
                                 @if (party.validationErrors?.address) { <p class="text-red-500 text-sm mt-2">{{ party.validationErrors.address }}</p> }
                             </div>
                              <div>
                                 <label [for]="'email-' + party.id" class="block text-lg font-bold text-slate-700 mb-2">Email</label>
-                                <input type="email" [id]="'email-' + party.id" [value]="party.contacts.email" (input)="onPartyContactChange($event, party.id, 'email')" class="mt-1 block w-full rounded-lg border-slate-400 bg-white text-black shadow-sm sm:text-lg p-3 focus:ring-2 focus:ring-indigo-400 focus:border-transparent" />
+                                <input type="email" [id]="'email-' + party.id" [value]="party.contacts.email" (input)="onPartyContactChange($event, party.id, 'email')" class="mt-1 block w-full rounded-lg border-2 border-black bg-white text-black shadow-sm sm:text-lg p-3 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20" />
                             </div>
                             <div>
                                 <label [for]="'phone-' + party.id" class="block text-lg font-bold text-slate-700 mb-2">Telefon</label>
-                                <input type="tel" [id]="'phone-' + party.id" [value]="party.contacts.phone" (input)="onPartyContactChange($event, party.id, 'phone')" class="mt-1 block w-full rounded-lg border-slate-400 bg-white text-black shadow-sm sm:text-lg p-3 focus:ring-2 focus:ring-indigo-400 focus:border-transparent" />
+                                <input type="tel" [id]="'phone-' + party.id" [value]="party.contacts.phone" (input)="onPartyContactChange($event, party.id, 'phone')" class="mt-1 block w-full rounded-lg border-2 border-black bg-white text-black shadow-sm sm:text-lg p-3 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20" />
                             </div>
                         </div>
 
@@ -148,7 +148,7 @@ import { ContractInput, Party, GenerationResult, Contact, PartyValidationErrors,
             <h2 class="text-3xl font-bold text-slate-900 mb-6 border-b border-slate-300 pb-4">3. Dodatne Upute</h2>
             <div>
               <label for="additional_instructions" class="block text-lg font-bold text-slate-700 mb-2">Posebni zahtjevi, klauzule ili napomene</label>
-              <textarea id="additional_instructions" rows="4" [value]="contractInput().additional_instructions" (input)="onContractDetailChange($event, 'additional_instructions')" class="mt-1 block w-full rounded-lg border-slate-400 bg-white text-black shadow-sm sm:text-lg p-3 focus:ring-2 focus:ring-indigo-400 focus:border-transparent placeholder:text-slate-500" placeholder="npr. 'Koristi jednostavan jezik', 'Uključi klauzulu o povjerljivosti...'"></textarea>
+              <textarea id="additional_instructions" rows="4" [value]="contractInput().additional_instructions" (input)="onContractDetailChange($event, 'additional_instructions')" class="mt-1 block w-full rounded-lg border-2 border-black bg-white text-black shadow-sm sm:text-lg p-3 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 placeholder:text-slate-500" placeholder="npr. 'Koristi jednostavan jezik', 'Uključi klauzulu o povjerljivosti...'"></textarea>
             </div>
           </section>
 
@@ -191,7 +191,7 @@ import { ContractInput, Party, GenerationResult, Contact, PartyValidationErrors,
                             </div>
                         </div>
                         <div class="mt-4 p-6 bg-slate-50 rounded-lg border border-slate-300 max-h-[45rem] overflow-y-auto">
-                            <pre class="text-lg whitespace-pre-wrap font-mono text-slate-900">{{ generationResult().markdown }}</pre>
+                            <textarea class="w-full text-lg font-mono text-slate-900 bg-transparent border-none focus:ring-0 resize-y min-h-[40rem]" [value]="generationResult().markdown" (input)="onGeneratedContractChange($event)"></textarea>
                         </div>
                     </div>
                     <div class="bg-slate-800 text-slate-200 p-8 rounded-xl shadow-lg">
@@ -443,5 +443,13 @@ export class AppComponent {
       console.error('Failed to copy text: ', err);
       this.error.set('Could not copy text to clipboard.');
     }
+  }
+
+  onGeneratedContractChange(event: Event): void {
+    const newMarkdown = (event.target as HTMLTextAreaElement).value;
+    this.generationResult.update(current => {
+      if (!current) return null;
+      return { ...current, markdown: newMarkdown };
+    });
   }
 }
